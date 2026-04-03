@@ -11,6 +11,8 @@
 - no mods / total conversions (for the most part) - this field is well-documented already
 - suggestions will be added to the top post and tagged by year
 
+[(original forum thread on selectbutton.net)](https://selectbutton.net/t/sprite-based-first-person-games-with-mobile-avatar-and-granular-turn-increments/3809)
+
 ---
 
 ## 1984
@@ -212,7 +214,7 @@
 - [Angst: Rahz's Revenge (DOS, 1996)](https://www.mobygames.com/search/?q=Angst+Rahz%27s+Revenge)
 - [Birthright: The Gorgon's Alliance (DOS, 1996)](https://www.mobygames.com/search/?q=Birthright+The+Gorgon%27s+Alliance)
 - [The Terminator: Skynet / SkyNET (DOS, 1996)](https://www.mobygames.com/search/?q=The+Terminator+SkyNET+DOS)
-- [Normality (1996, DOS)](https://www.mobygames.com/search/?q=Normality+DOS+1996)
+- [Normality (DOS, 1996)](https://www.mobygames.com/search/?q=Normality+DOS+1996)
 - [Witchaven II: Blood Vengeance (DOS, 1996)](https://www.mobygames.com/search/?q=Witchaven+II+Blood+Vengeance)
 - [Shellshock (DOS, 1996)](https://www.mobygames.com/search/?q=Shellshock+DOS+1996)
 - [Transland (DOS, 1996)](https://www.mobygames.com/search/?q=Transland+DOS+1996)
@@ -304,7 +306,7 @@
 - [Rebel Moon Rising (Win, 1997)](https://www.mobygames.com/search/?q=Rebel+Moon+Rising+Windows)
 - [Star Trek Generations (Win, 1997)](https://www.mobygames.com/search/?q=Star+Trek+Generations+Windows+1997)
 - [Parkan: The Imperial Chronicles (Win, 1997)](https://www.mobygames.com/search/?q=Parkan+The+Imperial+Chronicles) [on-foot mode]
-- [Forbes Coporate Warrior (Win, 1997)](https://www.mobygames.com/search/?q=Forbes+Corporate+Warrior)
+- [Forbes Corporate Warrior (Win, 1997)](https://www.mobygames.com/search/?q=Forbes+Corporate+Warrior)
 - [TimeGate (Win, 1997)](https://www.mobygames.com/search/?q=TimeGate+Windows+1997)
 - [Troubles - The Living Dead / Смута - Ожившие мертвецы (Win, 1997)](https://www.mobygames.com/search/?q=Troubles+The+Living+Dead)
 - [Damage Incorporated (Mac, 1997)](https://www.mobygames.com/search/?q=Damage+Incorporated+Mac)
@@ -538,3 +540,16 @@
 - [YouTube playlist](https://www.youtube.com/playlist?list=PL2BBA1AB1CF53EEAC)
 
 special thanks to everyone who helped
+
+--- 
+
+## changelog
+
+- Jan 26, 2017 - initial forum post
+- May 16, 2021 - last forum post edit
+- Apr 03, 2026 - converted to markdown, minor typo fixes
+
+---
+
+meauxdal 2017-2026
+EOF
