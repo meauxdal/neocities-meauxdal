@@ -1,5 +1,7 @@
 # sprite-based first-person games (with mobile avatar and granular turn increments)
 
+[original forum thread on selectbutton.net](https://selectbutton.net/t/sprite-based-first-person-games-with-mobile-avatar-and-granular-turn-increments/3809)
+
 ## the rules
 
 - can apply to just one segment or mode of a game
@@ -9,9 +11,8 @@
 - significant portion of the game objects are sprites (subjective) - reduction: doom, not quake
 - must not be bound to a rail - must not be bound to move in one direction along a track
 - no mods / total conversions (for the most part) - this field is well-documented already
-- suggestions will be added to the top post and tagged by year
 
-[(original forum thread on selectbutton.net)](https://selectbutton.net/t/sprite-based-first-person-games-with-mobile-avatar-and-granular-turn-increments/3809)
+> suggestions will be added to the top post and tagged by year
 
 ---
 
@@ -551,5 +552,6 @@ special thanks to everyone who helped
 
 ---
 
-meauxdal 2017-2026
+meauxdal 2017-2026  
+
 EOF
