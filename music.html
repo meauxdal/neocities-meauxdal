@@ -6,10 +6,9 @@
   <link rel="icon" type="image/png" href="/favicon.png">
   <title>Music - meauxdal</title>
   <style>
-    /* Dark Slate Gray */
     body {
       background-color: #2F4F4F;
-      color: #F0F8FF; /* AliceBlue */
+      color: #F0F8FF;
       font-family: Verdana, Geneva, sans-serif;
       line-height: 1.6;
       max-width: 500px;
@@ -21,7 +20,7 @@
       color: #FFFFFF;
       font-weight: normal;
       font-size: 1.4em;
-      border-bottom: 1px solid #4682B4; /* SteelBlue */
+      border-bottom: 1px solid #4682B4;
       padding-bottom: 10px;
     }
 
@@ -32,34 +31,46 @@
       color: #FFFFFF;
     }
 
-    /* The "Emporium" box */
-    .emporium-box {
-      background: #3e5f5f;
-      padding: 20px;
-      border: 1px solid #5f9ea0;
-      margin: 20px 0;
-      text-align: center;
+    .project-block {
+      margin-bottom: 28px;
     }
 
-    .emporium-box p {
-      margin-bottom: 15px;
-      font-size: 0.9em;
+    .project-block h3 {
+      font-weight: normal;
+      font-size: 0.95em;
+      color: #F0F8FF;
+      margin: 0 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-size: 0.75em;
+      color: #A9A9A9;
     }
 
-    /* Big obvious link button */
-    .main-link {
+    .project-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .project-links a {
       display: inline-block;
-      padding: 10px 20px;
-      background-color: pink;
-      color: #2F4F4F !important;
+      padding: 4px 10px;
+      background: #3e5f5f;
+      border: 1px solid #5f9ea0;
+      color: pink;
       text-decoration: none;
-      font-weight: bold;
-      border: 1px solid #FFFFFF;
+      font-size: 0.82em;
     }
 
-    .main-link:hover {
-      background-color: #F0F8FF;
+    .project-links a:hover {
+      background: #4a7070;
       text-decoration: none;
+    }
+
+    .project-name {
+      font-size: 1em;
+      color: #F0F8FF;
+      margin-bottom: 6px;
     }
 
     ul {
@@ -70,12 +81,6 @@
     li {
       margin-bottom: 10px;
       font-size: 0.9em;
-    }
-
-    .date {
-      color: #A9A9A9;
-      font-family: 'Courier New', Courier, monospace;
-      margin-right: 10px;
     }
 
     a {
@@ -91,6 +96,12 @@
       margin-bottom: 20px;
       font-size: 0.8em;
     }
+
+    hr {
+      border: none;
+      border-top: 1px solid #3e5f5f;
+      margin: 6px 0 20px 0;
+    }
   </style>
 </head>
 <body>
@@ -101,29 +112,40 @@
 
   <h1>Music</h1>
 
-  <div class="emporium-box">
-    <p>Primary hub for music projects</p>
-    <a class="main-link" href="https://github.com/meauxdal/neocities-meauxdal/blob/main/music-links.md">
-      Elle's Music Link Emporium ↗
-    </a>
+    <div class="project-block">
+    <p class="project-name">Emporium</p>
+    <div class="project-links">
+      <a href="https://github.com/meauxdal/neocities-meauxdal/blob/main/music-links.md" target="_blank">Comprehensive music link hub ↗</a>
+    </div>
   </div>
 
-  <h2>Improvisations & Audio Fragments</h2>
+  <h2>Quick Links</h2>
+
+  <div class="project-block">
+    <p class="project-name">Elle (band)</p>
+    <div class="project-links">
+      <a href="https://elle-band.bandcamp.com/" target="_blank">Bandcamp ↗</a>
+      <a href="https://open.spotify.com/artist/2o3Xbbv4ujoMNF4fhyW1Ww" target="_blank">Spotify ↗</a>
+      <a href="https://www.youtube.com/channel/UCB8179I-mUR9nftmcYervlQ" target="_blank">YouTube ↗</a>
+      <a href="https://music.apple.com/us/album/dawn-ep/1699048925" target="_blank">Apple Music ↗</a>
+      <a href="https://www.instagram.com/404elle" target="_blank">Instagram ↗</a>
+    </div>
+  </div>
+
+  <div class="project-block">
+    <p class="project-name">meauxdal</p>
+    <div class="project-links">
+      <a href="https://meauxdal.bandcamp.com/" target="_blank">Bandcamp ↗</a>
+      <a href="https://www.youtube.com/@meauxdal" target="_blank">YouTube ↗</a>
+      <a href="https://instagram.com/meauxdal" target="_blank">Instagram ↗</a>
+    </div>
+  </div>
+
+  <h2>Misc.</h2>
+
   <ul>
-    <li><span class="date">2021-11-03</span> <a href="https://drive.google.com/file/d/1XuegmVDFo3HHqNo5Hx74ujjqSrcwlrjn/view?usp=sharing">Bösendorfer improvisation, "petite"</a></li>
-    <li><span class="date">2021-08-03</span> <a href="https://drive.google.com/file/d/11fQiTKfSAThIxPnPQc7Nqn3JX_aMtkuZ/view?usp=sharing">Bösendorfer improvisation, "recovery 1"</a></li>
-    <li><span class="date">2021-06-26</span> <a href="https://drive.google.com/file/d/1rWbv9opQWNc2qkolzgPxJuSq5yLIvGO9/view?usp=sharing">"8 amps and a tc" (scene 2) · compressed</a></li>
-    <li><span class="date">2021-06-26</span> <a href="https://drive.google.com/file/d/1ozzMM7vb70Am9jwBh-f6wrB0TQmKEUYH/view?usp=sharing">"8 amps and a tc" (scene 2) · uncompressed</a></li>
-    <li><span class="date">2021-06-17</span> <a href="https://drive.google.com/file/d/1xaPE_vw3he2mhYO3u97VRaiqYrCKi_3M/view?usp=sharing">Mellow imperial, improv on "my familiar"</a></li>
-    <li><span class="date">2021-05-05</span> <a href="https://drive.google.com/file/d/1ZpWkRKegG4za0GlCPUBaJtiwOJpjZjZ0/view?usp=sharing">Bösendorfer improvisation</a></li>
-    <li><span class="date">2021-04-30</span> <a href="https://drive.google.com/file/d/1x_0DYR6N-rwCwxqnuchEc-WVl1jORljy/view?usp=sharing">"8 amps and a tc" (scene 2) guitar improvisation</a></li>
-    <li><span class="date">2021-04-23</span> <a href="https://drive.google.com/file/d/1lAG2El6qVRNKuH6KRmHpAyMW4YFqk59n/view?usp=sharing">Ambient ep improvisation</a></li>
-    <li><span class="date">2021-04-19</span> <a href="https://drive.google.com/file/d/1Nkgw1KPAry4NYfB-Qi15B7uqclL5ou-8/view?usp=sharing">Rhodes improvisation</a></li>
-    <li><span class="date">2021-04-14</span> <a href="https://drive.google.com/file/d/13csnMRq3Y3a_dtMIhUnrsHO5Mk6sUZUi/view?usp=sharing">Mellow imperial improvisation</a></li>
-    <li><span class="date">2021-04-08</span> <a href="https://drive.google.com/file/d/15yIL9tx_oyujhjNF6siKkUpBwcv4hVNd/view?usp=sharing">Bösendorfer improvisation</a></li>
-    <li><span class="date">2021-03-27</span> <a href="https://drive.google.com/file/d/1aajXNxceTSlw1-Y00ujVE-7ADsvpv6uq/view?usp=sharing">Ditty in D major</a></li>
-    <li><span class="date">2021-03-23</span> <a href="https://drive.google.com/file/d/1zMlYxm7SYbzrvxKDr9FoKE-a6zNKAmUC/view?usp=sharing">MODX sequence improvisation</a></li>
-    <li><span class="date">2021-03-19</span> <a href="https://drive.google.com/file/d/1ERKwWzuGYMw6cNggnt5_F4iTS67ZXc8I/view?usp=sharing">Bösendorfer improvisation</a></li>
+    <li><a href="https://www.patreon.com/c/meauxdal" target="_blank">Patreon ↗</a></li>
+    <li><a href="improvisations.html">Improvisations</a></li>
   </ul>
 
 </body>
