@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <title>N64 VI Timing Calculator</title>
+  <style>
+    body { background: #fff; color: #000; font-family: monospace; padding: 20px; max-width: 860px; margin: 0 auto; }
+    h1 { font-size: 1.5em; }
+    .input-section { margin-bottom: 25px; border-bottom: 1px solid #000; padding-bottom: 25px; }
+    .row { margin: 10px 0; }
+    label { display: inline-block; width: 240px; font-weight: bold; }
+    select, input { font-family: monospace; font-size: 1em; padding: 4px; width: 300px; }
+    .results { line-height: 1.7; }
+    .val { font-weight: bold; color: #006600; }
+    .meta { color: #555; font-size: 0.9em; }
+    .deltas { font-family: monospace; color: #006600; }
+    hr { border: 0; border-top: 1px dashed #000; margin: 20px 0; }
+  </style>
+</head>
+<body>
+
+  <h1>N64 VI timing calculator</h1>
+
+  <div class="input-section">
+    <div class="row"><label>Preset:</label><select id="timingPreset" onchange="applyPreset()"></select></div>
+    <div class="row"><label>Region (VI clock frequency):</label><select id="viRegion" onchange="calc()">
+      <option value="NTSC">NTSC (48.68181818 MHz)</option>
+      <option value="PAL">PAL (49.65653 MHz)</option>
+      <option value="MPAL">MPAL (48.628321 MHz)</option>
+    </select></div>
+    <div class="row"><label>H_TOTAL (effective):</label><input type="number" id="HTOTAL" value="3094" oninput="markCustom(); calc()"></div>
+    <div class="row"><label>LEAP_A (effective):</label><input type="number" id="LEAPA" value="3094" oninput="markCustom(); calc()"></div>
+    <div class="row"><label>LEAP_B (effective):</label><input type="number" id="LEAPB" value="3094" oninput="markCustom(); calc()"></div>
+    <div class="row"><label>Leap pattern (0-31):</label><input type="number" id="pattern" value="0" min="0" max="31" oninput="markCustom(); calc()"></div>
+    <div class="row"><label>V_TOTAL (effective):</label><input type="number" id="S" value="526" oninput="markCustom(); calc()"></div>
+  </div>
+
+  <div class="results">
+    H_TOTAL: <span id="Lbase" class="val"></span><br>
+    LEAP_A : <span id="LEAPA_val" class="val"></span> <span id="LEAPA_meta" class="meta"></span><br>
+    LEAP_B : <span id="LEAPB_val" class="val"></span> <span id="LEAPB_meta" class="meta"></span><br>
+    <br>
+    H_TOTAL/4: <span id="HTOTAL_div4" class="val"></span><br>
+    LEAP_A/4 : <span id="LEAPA_div4" class="val"></span><br>
+    LEAP_B/4 : <span id="LEAPB_div4" class="val"></span><br>
+    <br>
+    Leap pattern: <span id="pattern_meta" class="val"></span><br>
+    Leap deltas: <span id="leapDeltas" class="val deltas"></span><br>
+    +VI clocks/vsync (avg): <span id="avgExtra" class="val"></span><br>
+    H_TOTAL (avg after leap): <span id="Lavg" class="val"></span><br>
+    <hr>
+    Horizontal scan frequency (f<sub>H</sub>): <span id="fH" class="val" style="font-size:1.25em"></span><br>
+    Vertical scan frequency (f<sub>V</sub>): <span id="fV" class="val" style="font-size:1.25em"></span>
+  </div>
+
+<script>
+class Fraction {
+  constructor(num, den = 1n) { this.num = BigInt(num); this.den = BigInt(den); this.reduce(); }
+  reduce() {
+    let a = this.num < 0n ? -this.num : this.num;
+    let b = this.den < 0n ? -this.den : this.den;
+    while (b !== 0n) { const t = b; b = a % b; a = t; }
+    const g = a; this.num /= g; this.den /= g;
+    if (this.den < 0n) { this.num = -this.num; this.den = -this.den; }
+  }
+  toString(decimals = 8) {
+    const intPart = this.num / this.den;
+    let rem = this.num % this.den;
+    if (rem < 0n) rem = -rem;
+    const scale = 10n ** BigInt(decimals);
+    // rounding to nearest
+    let frac = rem * scale;
+    let quot = frac / this.den;
+    let remainder = frac % this.den;
+    if (remainder * 2n >= this.den) quot += 1n;
+    // handle carry
+    let intAdj = intPart;
+    if (quot >= scale) { intAdj += 1n; quot -= scale; }
+    const decStr = quot.toString().padStart(decimals, '0');
+    return intAdj.toString() + "." + decStr;
+  }
+  multiply(other) { return new Fraction(this.num * other.num, this.den * other.den); }
+  divide(other) { return new Fraction(this.num * other.den, this.den * other.num); }
+}
+
+function markCustom() { document.getElementById('timingPreset').value = 'CUSTOM'; }
+
+function applyPreset() {
+  const p = document.getElementById('timingPreset').value;
+  const presets = {
+    NTSC_P:         {reg:"NTSC",h:3094,la:3094,lb:3094,pat:0, s:526},
+    NTSC_I:         {reg:"NTSC",h:3094,la:3094,lb:3094,pat:0, s:525},
+    PAL_P:          {reg:"PAL", h:3178,la:3183,lb:3184,pat:21,s:626},
+    PAL_I:          {reg:"PAL", h:3178,la:3183,lb:3184,pat:21,s:625},
+    MPAL_P:         {reg:"MPAL",h:3090,la:3099,lb:3098,pat:4, s:526},
+    MPAL_I:         {reg:"MPAL",h:3089,la:3101,lb:3101,pat:0, s:525},
+    PAL60_P:        {reg:"PAL", h:3156,la:3156,lb:3156,pat:0, s:526},
+    PAL60_I:        {reg:"PAL", h:3156,la:3156,lb:3156,pat:0, s:525},
+    MPAL_P_LIBPRE:  {reg:"MPAL",h:3089,la:3101,lb:3101,pat:0, s:526},
+    MPAL_P_MATH:    {reg:"MPAL",h:3091,la:3091,lb:3091,pat:0, s:526},
+    MPAL_I_MATH:    {reg:"MPAL",h:3091,la:3091,lb:3091,pat:0, s:525},
+  };
+  const cfg = presets[p]; if (!cfg) return;
+  document.getElementById('viRegion').value = cfg.reg;
+  document.getElementById('HTOTAL').value = cfg.h;
+  document.getElementById('LEAPA').value = cfg.la;
+  document.getElementById('LEAPB').value = cfg.lb;
+  document.getElementById('pattern').value = cfg.pat;
+  document.getElementById('S').value = cfg.s;
+  calc();
+}
+
+function calc() {
+  const region = document.getElementById('viRegion').value;
+
+  let fVI =
+  region === 'NTSC'
+    ? new Fraction(1071000000n, 22n)  // (1071/22)*1e6
+  : region === 'PAL'
+    ? new Fraction(49656530n, 1n)  // 49,656,530 Hz exactly per crystal
+  : new Fraction(6953850000n, 143n);
+
+  const L_base = BigInt(document.getElementById('HTOTAL').value || 0);
+  const LA = BigInt(document.getElementById('LEAPA').value || 0);
+  const LB = BigInt(document.getElementById('LEAPB').value || 0);
+  const pat = parseInt(document.getElementById('pattern').value) || 0;
+  const S = BigInt(document.getElementById('S').value || 0);
+    // values for libdragon macros 
+  document.getElementById('HTOTAL_div4').textContent = (Number(L_base) / 4).toFixed(2);
+  document.getElementById('LEAPA_div4').textContent = (Number(LA) / 4).toFixed(2);
+  document.getElementById('LEAPB_div4').textContent = (Number(LB) / 4).toFixed(2);
+
+  const deltaA = Number(LA - L_base);
+  const deltaB = Number(LB - L_base);
+  let deltas = [], totalExtra = 0;
+  for (let i = 0; i < 5; i++) {
+    const bit = (pat >> i) & 1;
+    const d = bit ? deltaB : deltaA;
+    deltas.push(d >= 0 ? `+${d}` : d);
+    totalExtra += d;
+  }
+
+  document.getElementById('Lbase').textContent = L_base;
+  document.getElementById('LEAPA_val').textContent = LA;
+  document.getElementById('LEAPB_val').textContent = LB;
+  document.getElementById('pattern_meta').textContent = "0b" + pat.toString(2).padStart(5,'0');
+  document.getElementById('leapDeltas').textContent = deltas.join(', ');
+  document.getElementById('avgExtra').textContent = (totalExtra / 5).toFixed(3) + " VI clocks";
+
+  const extraTotal5 = BigInt(totalExtra);
+  const L_avg =
+  new Fraction(L_base * 5n * S + 2n * extraTotal5,
+               5n * S);
+
+  const fH = fVI.divide(L_avg);
+  const fV = fVI
+  .multiply(new Fraction(2n))
+  .multiply(new Fraction(1n, S))
+  .divide(L_avg);
+
+  document.getElementById('Lavg').textContent = `${L_avg.num}/${L_avg.den} ≈ ${L_avg.toString(6)}`;
+  document.getElementById('fH').textContent = fH.toString(8) + " Hz";
+  document.getElementById('fV').textContent = fV.toString(8) + " Hz";
+}
+
+window.onload = () => { 
+  const sel = document.getElementById('timingPreset');
+  const opts = ["NTSC_P","NTSC_I","PAL_P","PAL_I","MPAL_P","MPAL_I","PAL60_P","PAL60_I","MPAL_P_LIBPRE","MPAL_P_MATH","MPAL_I_MATH"];
+  const names = ["NTSC Progressive","NTSC Interlaced","PAL Progressive","PAL Interlaced","MPAL Progressive","MPAL Interlaced","PAL60 Progressive","PAL60 Interlaced","MPAL Progressive (Libdragon Preview)","MPAL Progressive (Math)","MPAL Interlaced (Math)"];
+  opts.forEach((v,i) => {
+    const opt = document.createElement('option');
+    opt.value = v; opt.textContent = names[i];
+    sel.appendChild(opt);
+  });
+  applyPreset();
+};
+</script>
+</body>
+</html>
