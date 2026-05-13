@@ -6,99 +6,69 @@
   <title>VI timing calculator</title>
 
   <!-- KaTeX -->
-  <link rel="stylesheet" href="https://meauxdal.neocities.org/katex/katex.min.css">
-  <script src="https://meauxdal.neocities.org/katex/katex.min.js" defer></script>
-  <script src="https://meauxdal.neocities.org/katex/contrib/auto-render.min.js" defer
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="katex/katex.min.css">
+  <script src="katex/katex.min.js" defer></script>
+  <script src="katex/contrib/auto-render.min.js" defer
           onload="renderMathInElement(document.getElementById('model'), {
             delimiters: [
               {left: '$$', right: '$$', display: true},
               {left: '$',  right: '$',  display: false}
             ]
           })"></script>
-
-  <style>
-    body { background: #fff; color: #000; font-family: monospace; padding: 20px; max-width: 1000px; margin: 0 auto; }
-    h1 { font-size: 1.5em; margin-bottom: 25px; }
-    .input-section { margin-bottom: 25px; border-bottom: 1px solid #000; padding-bottom: 25px; display: flex; flex-direction: column; align-items: center; }
-    .row { margin: 10px 0; display: flex; align-items: center; }
-    label { display: inline-block; width: 260px; font-weight: bold; text-align: right; padding-right: 12px; }
-    select, input { font-family: monospace; font-size: 1em; padding: 4px; width: 300px; }
-    
-    /* Horizontal Split Layout */
-    .results-container { display: flex; gap: 40px; flex-wrap: wrap; margin-bottom: 40px; align-items: center; }
-    .results-col { flex: 1; min-width: 350px; line-height: 1.7; }
-    .results-left { display: flex; flex-direction: column; align-items: flex-end; }
-    .result-row { display: flex; align-items: baseline; gap: 0; }
-    .result-label { text-align: right; white-space: pre; }
-    .result-val { text-align: left; padding-left: 8px; }
-    .results-right { border-left: 1px dashed #000; padding-left: 40px; display: flex; flex-direction: column; justify-content: center; }
-    
-    .val { font-weight: bold; color: #006600; }
-    .meta { color: #555; font-size: 0.9em; }
-    .deltas { font-family: monospace; color: #006600; }
-    .highlight-block { margin-bottom: 20px; }
-
-    /* Model Section */
-    .divider { border: 0; border-top: 1px solid #000; margin: 40px 0; }
-    #model { font-family: serif; font-size: 1.1em; line-height: 1.8; }
-    #model h2 { font-family: monospace; font-size: 1.2em; font-weight: bold; margin: 0 0 1em; }
-    #model p { margin: 0.8em 0 0.2em; }
-    #model .katex-display { margin: 0.5em 0 1em 1.5em; }
-    .model-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem 2rem; align-items: start; }
-  </style>
 </head>
-<body>
+<body class="vi-calculator">
 
-  <h1 {text-align: center;}>VI timing calculator</h1>
+  <h1>VI timing calculator</h1>
   
-  <p {text-align: center;}>
+  <p class="vi-intro">
   N64 video timing calculator<br>
   values are effective (register value + 1)<br>
   </p>
 
   <div class="input-section">
-    <div class="row"><label>Preset:</label><select id="timingPreset" onchange="applyPreset()"></select></div>
-    <div class="row"><label>Region (VI clock frequency):</label><select id="viRegion" onchange="calc()">
+    <div class="input-row"><label>Preset:</label><select id="timingPreset" onchange="applyPreset()"></select></div>
+    <div class="input-row"><label>Region (VI clock frequency):</label><select id="viRegion" onchange="calc()">
       <option value="NTSC">NTSC (48.6818181818 MHz)</option>
       <option value="PAL">PAL (49.65653 MHz)</option>
       <option value="MPAL">MPAL (48.6283216783 MHz)</option>
     </select></div>
-    <div class="row"><label>H_TOTAL (effective):</label><input type="number" id="HTOTAL" value="3094" oninput="markCustom(); calc()"></div>
-    <div class="row"><label>LEAP_A (effective):</label><input type="number" id="LEAPA" value="3094" oninput="markCustom(); calc()"></div>
-    <div class="row"><label>LEAP_B (effective):</label><input type="number" id="LEAPB" value="3094" oninput="markCustom(); calc()"></div>
-    <div class="row"><label>Leap pattern (0-31):</label><input type="number" id="pattern" value="0" min="0" max="31" oninput="markCustom(); calc()"></div>
-    <div class="row"><label>V_TOTAL (effective):</label><input type="number" id="S" value="526" oninput="markCustom(); calc()"></div>
+    <div class="input-row"><label>H_TOTAL (effective):</label><input type="number" id="HTOTAL" value="3094" oninput="markCustom(); calc()"></div>
+    <div class="input-row"><label>LEAP_A (effective):</label><input type="number" id="LEAPA" value="3094" oninput="markCustom(); calc()"></div>
+    <div class="input-row"><label>LEAP_B (effective):</label><input type="number" id="LEAPB" value="3094" oninput="markCustom(); calc()"></div>
+    <div class="input-row"><label>Leap pattern (0-31):</label><input type="number" id="pattern" value="0" min="0" max="31" oninput="markCustom(); calc()"></div>
+    <div class="input-row"><label>V_TOTAL (effective):</label><input type="number" id="S" value="526" oninput="markCustom(); calc()"></div>
   </div>
 
   <div class="results-container">
     <!-- Left Column -->
-    <div class="results-col results-left">
-      <div class="result-row"><span class="result-label">H_TOTAL:</span><span class="result-val val" id="Lbase"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_A :</span><span class="result-val val" id="LEAPA_val"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_B :</span><span class="result-val val" id="LEAPB_val"></span></div>
-      <div style="height:0.8em"></div>
-      <div class="result-row"><span class="result-label">H_TOTAL/4:</span><span class="result-val val" id="HTOTAL_div4"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_A/4 :</span><span class="result-val val" id="LEAPA_div4"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_B/4 :</span><span class="result-val val" id="LEAPB_div4"></span></div>
-      <div style="height:0.8em"></div>
-      <div class="result-row"><span class="result-label">Leap pattern:</span><span class="result-val val" id="pattern_meta"></span></div>
-      <div class="result-row"><span class="result-label">Leap deltas:</span><span class="result-val val deltas" id="leapDeltas"></span></div>
-      <div class="result-row"><span class="result-label">+VI clocks/vsync (avg):</span><span class="result-val val" id="avgExtra"></span></div>
-      <div class="result-row"><span class="result-label">H_TOTAL (avg after leap):</span><span class="result-val val" id="Lavg"></span></div>
+    <div class="results-column results-column--left">
+      <div class="result-row"><span class="result-label">H_TOTAL:</span><span class="result-value val" id="Lbase"></span></div>
+      <div class="result-row"><span class="result-label">LEAP_A :</span><span class="result-value val" id="LEAPA_val"></span></div>
+      <div class="result-row"><span class="result-label">LEAP_B :</span><span class="result-value val" id="LEAPB_val"></span></div>
+      <div class="result-spacer"></div>
+      <div class="result-row"><span class="result-label">H_TOTAL/4:</span><span class="result-value val" id="HTOTAL_div4"></span></div>
+      <div class="result-row"><span class="result-label">LEAP_A/4 :</span><span class="result-value val" id="LEAPA_div4"></span></div>
+      <div class="result-row"><span class="result-label">LEAP_B/4 :</span><span class="result-value val" id="LEAPB_div4"></span></div>
+      <div class="result-spacer"></div>
+      <div class="result-row"><span class="result-label">Leap pattern:</span><span class="result-value val" id="pattern_meta"></span></div>
+      <div class="result-row"><span class="result-label">Leap deltas:</span><span class="result-value val deltas" id="leapDeltas"></span></div>
+      <div class="result-row"><span class="result-label">±VI clocks/vsync (avg):</span><span class="result-value val" id="avgExtra"></span></div>
+      <div class="result-row"><span class="result-label">H_TOTAL<sub>leap</sub>:</span><span class="result-value val" id="Lavg"></span></div>
     </div>
 
     <!-- Right Column  -->
-    <div class="results-col results-right">
+    <div class="results-column results-column--right">
       <div class="highlight-block">
         <strong>Horizontal scan frequency (f<sub>H</sub>):</strong><br>
         <span class="meta" id="fH_frac"></span><br>
-        <span id="fH_dec" class="val" style="font-size:1.25em"></span>
+        <span id="fH_dec" class="val frequency-value"></span>
       </div>
       
       <div class="highlight-block">
         <strong>Vertical scan frequency (f<sub>V</sub>):</strong><br>
         <span class="meta" id="fV_frac"></span><br>
-        <span id="fV_dec" class="val" style="font-size:1.25em"></span>
+        <span id="fV_dec" class="val frequency-value"></span>
       </div>
     </div>
   </div>
@@ -263,13 +233,19 @@ function calc() {
   document.getElementById('LEAPB_val').textContent = LB;
   document.getElementById('pattern_meta').textContent = "0b" + pat.toString(2).padStart(5,'0');
   document.getElementById('leapDeltas').textContent = deltas.join(', ');
-  document.getElementById('avgExtra').textContent = (totalExtra / 5).toFixed(3) + " VI clocks";
+  const avgExtra = totalExtra / 5;
+  const avgExtraText =
+    (avgExtra >= 0 ? "+" : "") +
+    avgExtra.toFixed(1);
+
+  document.getElementById('avgExtra').textContent =
+    avgExtraText;
 
   const L_avg = new Fraction(5n * L_base * S + 2n * BigInt(totalExtra), 5n * S);
   const fH = fVI.divide(L_avg);
   const fV = fVI.multiply(new Fraction(2n)).divide(new Fraction(S)).divide(L_avg);
 
-  document.getElementById('Lavg').textContent = `${L_avg.toString()} ≈ ${L_avg.toDecimal(6)}`;
+  document.getElementById('Lavg').textContent = L_avg.toDecimal(6);
   
   // Right Column Assignments
   document.getElementById('fH_frac').textContent = fH.toString();
