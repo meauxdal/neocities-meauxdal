@@ -15,106 +15,21 @@
       margin: 40px auto;
       padding: 0 20px;
     }
-
-    h1 {
-      color: #FFFFFF;
-      font-weight: normal;
-      font-size: 1.4em;
-      border-bottom: 1px solid #4682B4;
-      padding-bottom: 10px;
-    }
-
-    .tool-desc {
-      font-size: 0.9em;
-      color: #A9A9A9;
-      margin-bottom: 20px;
-    }
-
-    .config-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 20px;
-    }
-
-    .input-box {
-      background: #3e5f5f;
-      padding: 15px;
-      border: 1px solid #5f9ea0;
-      margin-bottom: 20px;
-    }
-    .config-grid .input-box { margin-bottom: 0; }
-
-    label {
-      display: block;
-      font-size: 0.75em;
-      margin-bottom: 8px;
-      color: #A9A9A9;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    select, input {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 1.1em;
-      padding: 5px;
-      background: #2F4F4F;
-      color: white;
-      border: 1px solid #5f9ea0;
-      width: 100%;
-      box-sizing: border-box;
-    }
-
-    .time-inputs {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-top: 10px;
-    }
-
-    .time-inputs input {
-      width: 60px;
-      text-align: center;
-      /* hide spinners */
-      -moz-appearance: textfield;
-    }
-    .time-inputs input::-webkit-inner-spin-button,
-    .time-inputs input::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
-    .time-inputs input[id="ms"] { width: 100px; }
-
-    .result-display {
-      padding: 25px;
-      border: 1px solid pink;
-      text-align: center;
-    }
-
-    #result {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 2.4em;
-      color: pink;
-      display: block;
-    }
-
-    a {
-      color: pink;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    .footer {
-      margin-top: 40px;
-      font-size: 0.75em;
-      text-align: center;
-      color: #A9A9A9;
-      border-top: 1px solid #4682B4;
-      padding-top: 20px;
-    }
+    h1 { color:#FFF; font-weight:normal; font-size:1.4em; border-bottom:1px solid #4682B4; padding-bottom:10px; }
+   .tool-desc { font-size:0.9em; color:#A9A9A9; margin-bottom:20px; }
+   .config-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px; }
+   .input-box { background:#3e5f5f; padding:15px; border:1px solid #5f9ea0; margin-bottom:20px; }
+   .config-grid.input-box { margin-bottom:0; }
+    label { display:block; font-size:0.75em; margin-bottom:8px; color:#A9A9A9; text-transform:uppercase; letter-spacing:1px; }
+    select,input { font-family:'Courier New',Courier,monospace; font-size:1.1em; padding:5px; background:#2F4F4F; color:white; border:1px solid #5f9ea0; width:100%; box-sizing:border-box; }
+   .time-inputs { display:flex; align-items:center; gap:5px; margin-top:10px; }
+   .time-inputs input { width:60px; text-align:center; -moz-appearance:textfield; }
+   .time-inputs input::-webkit-inner-spin-button,.time-inputs input::-webkit-outer-spin-button { -webkit-appearance:none; margin:0; }
+   .time-inputs input[id="ms"] { width:100px; }
+   .result-display { padding:25px; border:1px solid pink; text-align:center; }
+    #result { font-family:'Courier New',Courier,monospace; font-size:2.4em; color:pink; display:block; }
+    a { color:pink; text-decoration:none; } a:hover { text-decoration:underline; }
+   .footer { margin-top:40px; font-size:0.75em; text-align:center; color:#A9A9A9; border-top:1px solid #4682B4; padding-top:20px; }
   </style>
 </head>
 <body>
@@ -138,7 +53,6 @@
         <option value="PAL-M-I">PAL-M Interlaced</option>
       </select>
     </div>
-
     <div class="input-box">
       <label>Target Mode</label>
       <select id="dstMode" onchange="calc()">
@@ -157,7 +71,7 @@
     <div class="time-inputs">
       <input type="number" id="h" placeholder="0" oninput="calc()"> :
       <input type="number" id="m" placeholder="00" oninput="calc()"> :
-      <input type="number" id="s" placeholder="00" oninput="calc()"> .
+      <input type="number" id="s" placeholder="00" oninput="calc()">.
       <input type="number" id="ms" placeholder="000" oninput="calc()">
     </div>
   </div>
@@ -175,28 +89,46 @@
 <script>
 const RATIOS = {
   "NTSC-P": {
-    "NTSC-I": [525n, 526n], "PAL-P": [45072n, 37609n], "PAL-I": [45000n, 37609n],
-    "PAL-M-P": [4063394n, 4064139n], "PAL-M-I": [158995n, 159378n]
+    "NTSC-I": [525n, 526n],
+    "PAL-P": [31973130000n, 26679034811n],
+    "PAL-I": [45000n, 37609n],
+    "PAL-M-P": [4063394n, 4064139n],
+    "PAL-M-I": [158995n, 159378n]
   },
   "NTSC-I": {
-    "NTSC-P": [526n, 525n], "PAL-P": [30048n, 25025n], "PAL-I": [1200n, 1001n],
-    "PAL-M-P": [8126788n, 8112825n], "PAL-M-I": [31799n, 31815n]
+    "NTSC-P": [526n, 525n],
+    "PAL-P": [121802400n, 101441197n],
+    "PAL-I": [1200n, 1001n],
+    "PAL-M-P": [8126788n, 8112825n],
+    "PAL-M-I": [31799n, 31815n]
   },
   "PAL-P": {
-    "NTSC-P": [37609n, 45072n], "NTSC-I": [25025n, 30048n], "PAL-I": [625n, 626n],
-    "PAL-M-P": [290532671n, 348248808n], "PAL-M-I": [22736285n, 27313632n]
+    "NTSC-P": [26679034811n, 31973130000n],
+    "NTSC-I": [101441197n, 121802400n],
+    "PAL-I": [709379n, 710514n],
+    "PAL-M-P": [206097775621309n, 247040388945000n],
+    "PAL-M-I": [3225728623403n, 3875143356000n]
   },
   "PAL-I": {
-    "NTSC-P": [37609n, 45000n], "NTSC-I": [1001n, 1200n], "PAL-P": [626n, 625n],
-    "PAL-M-P": [290532671n, 347692500n], "PAL-M-I": [4547257n, 5454000n]
+    "NTSC-P": [37609n, 45000n],
+    "NTSC-I": [1001n, 1200n],
+    "PAL-P": [710514n, 709379n],
+    "PAL-M-P": [290532671n, 347692500n],
+    "PAL-M-I": [4547257n, 5454000n]
   },
   "PAL-M-P": {
-    "NTSC-P": [4064139n, 4063394n], "NTSC-I": [8112825n, 8126788n], "PAL-P": [348248808n, 290532671n],
-    "PAL-I": [347692500n, 290532671n], "PAL-M-I": [8108745n, 8126788n]
+    "NTSC-P": [4064139n, 4063394n],
+    "NTSC-I": [8112825n, 8126788n],
+    "PAL-P": [247040388945000n, 206097775621309n],
+    "PAL-I": [347692500n, 290532671n],
+    "PAL-M-I": [8108745n, 8126788n]
   },
   "PAL-M-I": {
-    "NTSC-P": [159378n, 158995n], "NTSC-I": [31815n, 31799n], "PAL-P": [27313632n, 22736285n],
-    "PAL-I": [5454000n, 4547257n], "PAL-M-P": [8126788n, 8108745n]
+    "NTSC-P": [159378n, 158995n],
+    "NTSC-I": [31815n, 31799n],
+    "PAL-P": [3875143356000n, 3225728623403n],
+    "PAL-I": [5454000n, 4547257n],
+    "PAL-M-P": [8126788n, 8108745n]
   }
 };
 
@@ -206,9 +138,9 @@ function calc() {
   const src = document.getElementById('srcMode').value;
   const dst = document.getElementById('dstMode').value;
 
-  const h  = parseInt(document.getElementById('h').value)  || 0;
-  const m  = parseInt(document.getElementById('m').value)  || 0;
-  const s  = parseInt(document.getElementById('s').value)  || 0;
+  const h = parseInt(document.getElementById('h').value) || 0;
+  const m = parseInt(document.getElementById('m').value) || 0;
+  const s = parseInt(document.getElementById('s').value) || 0;
   const ms = parseInt(document.getElementById('ms').value) || 0;
 
   const totalMs = (h * 3600000) + (m * 60000) + (s * 1000) + ms;
@@ -218,16 +150,16 @@ function calc() {
   }
 
   let ratio = 1.0;
-  if (src !== dst) {
+  if (src!== dst) {
     const fraction = RATIOS[src][dst];
     ratio = Number(fraction[0]) / Number(fraction[1]);
   }
 
   const targetTotal = totalMs * ratio;
 
-  const nh  = Math.floor(targetTotal / 3600000);
-  const nm  = Math.floor((targetTotal % 3600000) / 60000);
-  const ns  = Math.floor((targetTotal % 60000) / 1000);
+  const nh = Math.floor(targetTotal / 3600000);
+  const nm = Math.floor((targetTotal % 3600000) / 60000);
+  const ns = Math.floor((targetTotal % 60000) / 1000);
   const nms = Math.floor(targetTotal % 1000);
 
   document.getElementById('result').innerText =
