@@ -76,64 +76,94 @@
   <hr class="divider">
 
   <section id="model">
-  <div class="model-grid">
-    <div>
-      $$
-      \begin{aligned}
-      f_{VI} &\equiv \text{VI clock frequency} \\
-      L      &\equiv \text{H\_TOTAL (effective)} \\
-      S      &\equiv \text{V\_TOTAL (effective)} \\
-      L_A    &\equiv \text{LEAP\_A (effective)} \\
-      L_B    &\equiv \text{LEAP\_B (effective)}
-      \end{aligned}
-      $$
+    <div class="model-grid">
+      <div>
+        $$
+        \begin{aligned}
+        f_{VI} &\equiv \text{VI clock frequency} \\
+        L      &\equiv \text{H\_TOTAL (effective)} \\
+        S      &\equiv \text{V\_TOTAL (effective)} \\
+        L_A    &\equiv \text{LEAP\_A (effective)} \\
+        L_B    &\equiv \text{LEAP\_B (effective)}
+        \end{aligned}
+        $$
+      </div>
+
+      <div>
+        $$
+        \begin{aligned}
+        f_{VI,\mathrm{NTSC}} &= \frac{535{,}500{,}000}{11}\ \mathrm{Hz} \\[1.0em]
+        f_{VI,\mathrm{PAL}}  &= 49{,}656{,}530\ \mathrm{Hz} \\[0.6em]
+        f_{VI,\mathrm{MPAL}} &= \frac{6{,}953{,}850{,}000}{143}\ \mathrm{Hz}
+        \end{aligned}
+        $$
+      </div>
     </div>
 
-    <div>
-      $$
-      \begin{aligned}
-      f_{VI,\mathrm{NTSC}} &= \frac{535{,}500{,}000}{11}\ \mathrm{Hz} \\[1.0em]
-      f_{VI,\mathrm{PAL}}  &= 49{,}656{,}530\ \mathrm{Hz} \\[0.6em]
-      f_{VI,\mathrm{MPAL}} &= \frac{6{,}953{,}850{,}000}{143}\ \mathrm{Hz}
-      \end{aligned}
-      $$
-    </div>
+    <p>Register values are terminal-counted; add 1 for effective values:</p>
+    $$
+    L = L_\text{reg} + 1,
+    \qquad
+    S = S_\text{reg} + 1,
+    \qquad
+    L_A = L_{A,\text{reg}} + 1,
+    \qquad
+    L_B = L_{B,\text{reg}} + 1
+    $$
+
+    <p>Leap deltas — VI clocks added to the baseline line length during VSYNC; bit $i$ of the 5-bit LEAP pattern selects $\delta_A$ (0) or $\delta_B$ (1) for field $i$:</p>
+    $$
+    \delta_A = L_A - L,
+    \qquad
+    \delta_B = L_B - L,
+    \qquad
+    \delta_i \in \{\delta_A,\, \delta_B\}
+    $$
+
+    <p>Leap accumulation over one 5-field cycle:</p>
+    $$
+    \Delta = \sum_{i=0}^{4} \delta_i
+    $$
+
+    <p>Effective average line length — the factor 2 converts $S$ half-lines to full lines ($5$ fields contain $5S/2$ lines):</p>
+    $$
+    L_\text{leap} = \frac{5 L S + 2 \Delta}{5 S}
+    = L + \frac{2 \Delta}{5 S}
+    $$
+
+    <p>Scan frequencies (first horizontal, then vertical):</p>
+    $$
+    f_H = \frac{f_{VI}}{L_\text{leap}},
+    \qquad
+    f_V = \frac{2 f_H}{S} = \frac{2 f_{VI}}{S \cdot L_\text{leap}}
+    $$
+
+  <div class="example">
+    <p><strong>Example — PAL interlaced</strong></p>
+    $$
+    \begin{aligned}
+    L &= 3178, \quad S = 625 \\
+    L_A &= 3184\ (\delta_A = 6), \quad
+    L_B = 3183\ (\delta_B = 5) \\
+    \text{pattern} &= 10101_2 \;\Rightarrow\;
+      \Delta = 6+5+6+5+6 = 28 \\[0.3em]
+    L_\text{leap} &= 3178 + \frac{56}{3125}
+                  = \frac{9{,}931{,}296}{3125} \\
+    f_H &= \frac{49{,}656{,}530}{L_\text{leap}}
+        = 15{,}625\ \text{Hz} \\
+    f_V &= \frac{2\,f_H}{S}
+        = 50\ \text{Hz}
+    \end{aligned}
+    $$
+    <p>For modes without leap (NTSC), $\Delta = 0$ and $L_\text{leap} = L$.</p>
   </div>
 
-  <p>Register values are terminal-counted; add 1 for effective values:</p>
-  $$
-  L = L_\text{reg} + 1,
-  \qquad
-  S = S_\text{reg} + 1
-  $$
+  </section>
 
-  <p>Leap deltas; VI clocks above baseline per slot; bit $i$ of the pattern selects $\delta_A$ (0) or $\delta_B$ (1):</p>
-  $$
-  \delta_A = L_A - L,
-  \qquad
-  \delta_B = L_B - L,
-  \qquad
-  \delta_i \in \{\delta_A,\, \delta_B\}
-  $$
-
-  <p>Leap accumulation over the 5-VSYNC cycle:</p>
-  $$
-  \Delta = \sum_{i=0}^{4} \delta_i
-  $$
-
-  <p>Effective average line length:</p>
-  $$
-  L_\text{leap} = \frac{5LS + 2\Delta}{5S}
-  $$
-
-  <p>Scan frequencies:</p>
-  $$
-  f_H = \frac{f_{VI}}{L_\text{leap}},
-  \qquad
-  f_V = \frac{2f_{VI}}{S \cdot L_\text{leap}}
-  $$
-
-</section>
+  <footer class="ref-footer" style="margin-top:2em; font-size:0.85em; opacity:0.7;">
+    More details: 
+    <a href="https://github.com/meauxdal/N64-Refresh-Rate-Reference" target="_blank" rel="noopener">github.com/meauxdal/N64-Refresh-Rate-Reference</a>
+  </footer>
 
 <script>
 class Fraction {
