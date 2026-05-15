@@ -19,6 +19,8 @@
 </head>
 <body class="vi-calculator">
 
+  <p><a href="projects.html">← go back</a></p>
+
   <h1>VI timing calculator</h1>
   
   <p class="vi-intro">
@@ -40,38 +42,86 @@
     <div class="input-row"><label>V_TOTAL (effective):</label><input type="number" id="S" value="526" oninput="markCustom(); calc()"></div>
   </div>
 
-  <div class="results-container">
-    <!-- Left Column -->
-    <div class="results-column results-column--left">
-      <div class="result-row"><span class="result-label">H_TOTAL:</span><span class="result-value val" id="Lbase"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_A :</span><span class="result-value val" id="LEAPA_val"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_B :</span><span class="result-value val" id="LEAPB_val"></span></div>
-      <div class="result-spacer"></div>
-      <div class="result-row"><span class="result-label">H_TOTAL/4:</span><span class="result-value val" id="HTOTAL_div4"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_A/4 :</span><span class="result-value val" id="LEAPA_div4"></span></div>
-      <div class="result-row"><span class="result-label">LEAP_B/4 :</span><span class="result-value val" id="LEAPB_div4"></span></div>
-      <div class="result-spacer"></div>
-      <div class="result-row"><span class="result-label">Leap pattern:</span><span class="result-value val" id="pattern_meta"></span></div>
-      <div class="result-row"><span class="result-label">Leap deltas:</span><span class="result-value val deltas" id="leapDeltas"></span></div>
-      <div class="result-row"><span class="result-label">±VI clocks/vsync (avg):</span><span class="result-value val" id="avgExtra"></span></div>
-      <div class="result-row"><span class="result-label">H_TOTAL<sub>leap</sub>:</span><span class="result-value val" id="Lavg"></span></div>
+<div class="results-container">
+
+  <!-- Left Column: Configuration + Intermediate Structure -->
+  <div class="results-column results-column--left">
+
+    <div class="result-row">
+      <span class="result-label">H_TOTAL:</span>
+      <span class="result-value val" id="Lbase"></span>
     </div>
 
-    <!-- Right Column  -->
-    <div class="results-column results-column--right">
-      <div class="highlight-block">
-        <strong>Horizontal scan frequency (f<sub>H</sub>):</strong><br>
-        <span class="meta" id="fH_frac"></span><br>
-        <span id="fH_dec" class="val frequency-value"></span>
-      </div>
-      
-      <div class="highlight-block">
-        <strong>Vertical scan frequency (f<sub>V</sub>):</strong><br>
-        <span class="meta" id="fV_frac"></span><br>
-        <span id="fV_dec" class="val frequency-value"></span>
-      </div>
+    <div class="result-row">
+      <span class="result-label">LEAP_A:</span>
+      <span class="result-value val" id="LEAPA_val"></span>
     </div>
+
+    <div class="result-row">
+      <span class="result-label">LEAP_B:</span>
+      <span class="result-value val" id="LEAPB_val"></span>
+    </div>
+
+    <div class="result-spacer"></div>
+
+    <div class="result-row">
+      <span class="result-label">H_TOTAL/4:</span>
+      <span class="result-value val" id="HTOTAL_div4"></span>
+    </div>
+
+    <div class="result-row">
+      <span class="result-label">LEAP_A/4:</span>
+      <span class="result-value val" id="LEAPA_div4"></span>
+    </div>
+
+    <div class="result-row">
+      <span class="result-label">LEAP_B/4:</span>
+      <span class="result-value val" id="LEAPB_div4"></span>
+    </div>
+
+    <div class="result-spacer"></div>
+
+    <div class="result-row">
+      <span class="result-label">Leap pattern:</span>
+      <span class="result-value val" id="pattern_meta"></span>
+    </div>
+
+    <div class="result-row">
+      <span class="result-label">Leap deltas:</span>
+      <span class="result-value val deltas" id="leapDeltas"></span>
+    </div>
+
+    <div class="result-row">
+      <span class="result-label">±VI clocks/VSYNC (avg):</span>
+      <span class="result-value val" id="avgExtra"></span>
+    </div>
+
   </div>
+
+  <!-- Right Column: Derived System Outputs -->
+  <div class="results-column results-column--right">
+
+    <div class="highlight-block">
+      <strong>H_TOTAL<sub>leap</sub>:</strong><br>
+      <span class="meta" id="Lavg_frac"></span><br>
+      <span class="val frequency-value" id="Lavg"></span>
+    </div>
+
+    <div class="highlight-block">
+      <strong>Horizontal scan frequency (f<sub>H</sub>):</strong><br>
+      <span class="meta" id="fH_frac"></span><br>
+      <span id="fH_dec" class="val frequency-value"></span>
+    </div>
+
+    <div class="highlight-block">
+      <strong>Vertical scan frequency (f<sub>V</sub>):</strong><br>
+      <span class="meta" id="fV_frac"></span><br>
+      <span id="fV_dec" class="val frequency-value"></span>
+    </div>
+
+  </div>
+
+</div>
 
   <hr class="divider">
 
@@ -80,7 +130,7 @@
       <div>
         $$
         \begin{aligned}
-        f_{VI} &\equiv \text{VI clock frequency} \\
+        f_\text{VI} &\equiv \text{VI clock frequency} \\
         L      &\equiv \text{H\_TOTAL (effective)} \\
         S      &\equiv \text{V\_TOTAL (effective)} \\
         L_A    &\equiv \text{LEAP\_A (effective)} \\
@@ -92,9 +142,12 @@
       <div>
         $$
         \begin{aligned}
-        f_{VI,\mathrm{NTSC}} &= \frac{535{,}500{,}000}{11}\ \mathrm{Hz} \\[1.0em]
-        f_{VI,\mathrm{PAL}}  &= 49{,}656{,}530\ \mathrm{Hz} \\[0.6em]
-        f_{VI,\mathrm{MPAL}} &= \frac{6{,}953{,}850{,}000}{143}\ \mathrm{Hz}
+        f_{\text{VI},\text{NTSC}}
+          &= \frac{535{,}500{,}000}{11}\ \text{Hz} \\[1.1em]
+        f_{\text{VI},\text{PAL}}
+          &= 49{,}656{,}530\ \text{Hz} \\[0.55em]
+        f_{\text{VI},\text{MPAL}}
+          &= \frac{6{,}953{,}850{,}000}{143}\ \text{Hz}
         \end{aligned}
         $$
       </div>
@@ -111,52 +164,107 @@
     L_B = L_{B,\text{reg}} + 1
     $$
 
-    <p>Leap deltas — VI clocks added to the baseline line length during VSYNC; bit $i$ of the 5-bit LEAP pattern selects $\delta_A$ (0) or $\delta_B$ (1) for field $i$:</p>
+    <p>Leap deltas — per-slot difference from the baseline line length:</p>
     $$
     \delta_A = L_A - L,
     \qquad
-    \delta_B = L_B - L,
-    \qquad
+    \delta_B = L_B - L
+    $$
+
+    <p>Slot $i$ of the 5-slot leap pattern selects $\delta_A$ when bit $i$ is 0, $\delta_B$ when bit $i$ is 1:</p>
+    $$
     \delta_i \in \{\delta_A,\, \delta_B\}
     $$
 
-    <p>Leap accumulation over one 5-field cycle:</p>
+    <p>Leap accumulation over one 5-VSYNC period:</p>
     $$
     \Delta = \sum_{i=0}^{4} \delta_i
     $$
 
-    <p>Effective average line length — the factor 2 converts $S$ half-lines to full lines ($5$ fields contain $5S/2$ lines):</p>
-    $$
-    L_\text{leap} = \frac{5 L S + 2 \Delta}{5 S}
-    = L + \frac{2 \Delta}{5 S}
-    $$
-
-    <p>Scan frequencies (first horizontal, then vertical):</p>
-    $$
-    f_H = \frac{f_{VI}}{L_\text{leap}},
-    \qquad
-    f_V = \frac{2 f_H}{S} = \frac{2 f_{VI}}{S \cdot L_\text{leap}}
-    $$
-
-  <div class="example">
-    <p><strong>Example — PAL interlaced</strong></p>
+    <p>Leap-adjusted average line length — $\Delta$ is distributed over $S/2$ lines per VSYNC, averaged across the 5-slot period:</p>
     $$
     \begin{aligned}
-    L &= 3178, \quad S = 625 \\
-    L_A &= 3184\ (\delta_A = 6), \quad
-    L_B = 3183\ (\delta_B = 5) \\
-    \text{pattern} &= 10101_2 \;\Rightarrow\;
-      \Delta = 6+5+6+5+6 = 28 \\[0.3em]
-    L_\text{leap} &= 3178 + \frac{56}{3125}
-                  = \frac{9{,}931{,}296}{3125} \\
-    f_H &= \frac{49{,}656{,}530}{L_\text{leap}}
-        = 15{,}625\ \text{Hz} \\
-    f_V &= \frac{2\,f_H}{S}
-        = 50\ \text{Hz}
+    L_\text{leap}
+      &= \frac{5LS + 2\Delta}{5S} \\[0.8em]
+      &= L + \frac{2\Delta}{5S}
     \end{aligned}
     $$
-    <p>For modes without leap (NTSC), $\Delta = 0$ and $L_\text{leap} = L$.</p>
-  </div>
+
+    <p>Horizontal scan frequency:</p>
+    $$
+    f_H = \frac{f_\text{VI}}{L_\text{leap}}
+    $$
+
+    <p>Vertical scan frequency:</p>
+    $$
+    f_V = \frac{2 f_H}{S} = \frac{2 f_\text{VI}}{S \cdot L_\text{leap}}
+    $$
+
+    <div class="example">
+      <p><strong>Example — PAL interlaced (1996)</strong></p>
+
+      <p>Given effective values:</p>
+      $$
+      \begin{gathered}
+      L = 3178, \qquad S = 625 \\
+      L_A = 3183\ (\delta_A = 5), \qquad
+      L_B = 3184\ (\delta_B = 6)
+      \end{gathered}
+      $$
+
+      <p>The 5-slot leap pattern selects $\delta_B$ when bit $i$ is 1, $\delta_A$ when bit $i$ is 0:</p>
+      $$
+      \text{pattern} = 10101_2 \implies \delta_B,\, \delta_A,\, \delta_B,\, \delta_A,\, \delta_B
+      $$
+
+      <p>Summing leap deltas over one 5-VSYNC period:</p>
+      $$
+      \Delta = 6 + 5 + 6 + 5 + 6 = 28
+      $$
+
+      <p>Converting half-lines to full lines:</p>
+      $$
+      2\Delta = 2 \times 28 = 56
+      $$
+
+      <p>Applying the leap-adjusted average line length equation:</p>
+      $$
+      \begin{aligned}
+      L_\text{leap}
+        &= \frac{5 \times 3178 \times 625 + 56}{5 \times 625} \\[0.8em]
+        &= \frac{9{,}931{,}250 + 56}{3{,}125} \\[0.8em]
+        &= \frac{9{,}931{,}306}{3{,}125}
+      \end{aligned}
+      $$
+
+      <p>Horizontal scan frequency:</p>
+      $$
+      \begin{aligned}
+      f_H
+        &= \frac{49{,}656{,}530}{9{,}931{,}306 / 3{,}125} \\[0.8em]
+        &= \frac{49{,}656{,}530 \times 3{,}125}{9{,}931{,}306} \\[0.8em]
+        &= \frac{155{,}176{,}656{,}250}{9{,}931{,}306} \\[0.8em]
+        &= 15{,}625\ \text{Hz}
+      \end{aligned}
+      $$
+
+      <p>Vertical scan frequency:</p>
+      $$
+      \begin{aligned}
+      f_V
+        &= \frac{2 \times 15{,}625}{625} \\[0.8em]
+        &= \frac{31{,}250}{625} \\[0.8em] 
+        &= 50\ \text{Hz}
+      \end{aligned}
+      $$
+
+      <p>For modes with no leap correction (NTSC), $\Delta = 0$ and $L_\text{leap} = L$:</p>
+      $$
+      \Delta = 0,
+      \qquad
+      L_\text{leap} = L
+      $$
+    </div>
 
   </section>
 
@@ -214,6 +322,8 @@ function applyPreset() {
     PAL_I:          {reg:"PAL", h:3178,la:3183,lb:3184,pat:21,s:625},
     MPAL_P:         {reg:"MPAL",h:3090,la:3099,lb:3098,pat:4, s:526},
     MPAL_I:         {reg:"MPAL",h:3089,la:3101,lb:3101,pat:0, s:525},
+    PAL_P_OS20H:    {reg:"PAL", h:3178,la:3182,lb:3184,pat:23,s:626},
+    PAL_I_OS20H:    {reg:"PAL", h:3178,la:3182,lb:3184,pat:23,s:625},
     PAL60_P:        {reg:"PAL", h:3156,la:3156,lb:3156,pat:0, s:526},
     PAL60_I:        {reg:"PAL", h:3156,la:3156,lb:3156,pat:0, s:525},
     MPAL_P_LIBPRE:  {reg:"MPAL",h:3089,la:3101,lb:3101,pat:0, s:526},
@@ -233,16 +343,21 @@ function applyPreset() {
 function calc() {
   const region = document.getElementById('viRegion').value;
 
-  const fVI = 
-    region === 'NTSC' ? new Fraction(1071000000n, 22n) :
-    region === 'PAL'  ? new Fraction(49656530n, 1n) :
-                        new Fraction(6953850000n, 143n);
+const fVI = 
+  region === 'NTSC' ? new Fraction(535500000n, 11n) :
+  region === 'PAL'  ? new Fraction(49656530n, 1n) :
+                      new Fraction(6953850000n, 143n);
 
-  const L_base = BigInt(document.getElementById('HTOTAL').value || 0);
-  const LA = BigInt(document.getElementById('LEAPA').value || 0);
-  const LB = BigInt(document.getElementById('LEAPB').value || 0);
-  const pat = parseInt(document.getElementById('pattern').value) || 0;
-  const S = BigInt(document.getElementById('S').value || 0);
+const toBigInt = (id) => {
+  const v = document.getElementById(id).value;
+  return BigInt(v === "" ? "0" : v);
+};
+
+const L_base = toBigInt('HTOTAL');
+const LA = toBigInt('LEAPA');
+const LB = toBigInt('LEAPB');
+const S = toBigInt('S');
+const pat = parseInt(document.getElementById('pattern').value) || 0;
 
   document.getElementById('HTOTAL_div4').textContent = (Number(L_base) / 4).toFixed(2);
   document.getElementById('LEAPA_div4').textContent = (Number(LA) / 4).toFixed(2);
@@ -275,7 +390,8 @@ function calc() {
   const fH = fVI.divide(L_avg);
   const fV = fVI.multiply(new Fraction(2n)).divide(new Fraction(S)).divide(L_avg);
 
-  document.getElementById('Lavg').textContent = L_avg.toDecimal(6);
+  document.getElementById('Lavg').textContent = `≈ ${L_avg.toDecimal(13)}`;
+  document.getElementById('Lavg_frac').textContent = L_avg.toString();
   
   // Right Column Assignments
   document.getElementById('fH_frac').textContent = fH.toString();
@@ -287,8 +403,36 @@ function calc() {
 
 window.onload = () => { 
   const sel = document.getElementById('timingPreset');
-  const opts = ["NTSC_P","NTSC_I","PAL_P","PAL_I","MPAL_P","MPAL_I","PAL60_P","PAL60_I","MPAL_P_LIBPRE","MPAL_P_MATH","MPAL_I_MATH"];
-  const names = ["NTSC Progressive","NTSC Interlaced","PAL Progressive","PAL Interlaced","MPAL Progressive","MPAL Interlaced","PAL60 Progressive","PAL60 Interlaced","MPAL Progressive (Libdragon Preview)","MPAL Progressive (Math)","MPAL Interlaced (Math)"];
+  const opts = [
+    "NTSC_P",
+    "NTSC_I",
+    "PAL_P",
+    "PAL_I",
+    "MPAL_P",
+    "MPAL_I",
+    "PAL_P_OS20H",
+    "PAL_I_OS20H",
+    "PAL60_P",
+    "PAL60_I",
+    "MPAL_P_LIBPRE",
+    "MPAL_P_MATH",
+    "MPAL_I_MATH"
+  ];
+  const names = [
+    "NTSC Progressive",
+    "NTSC Interlaced",
+    "PAL Progressive (1996)",
+    "PAL Interlaced (1996)",
+    "MPAL Progressive",
+    "MPAL Interlaced",
+    "PAL Progressive (OS2.0H+)",
+    "PAL Interlaced (OS2.0H+)",
+    "PAL60 Progressive",
+    "PAL60 Interlaced",
+    "MPAL Progressive (Libdragon Preview)",
+    "MPAL Progressive (Math)",
+    "MPAL Interlaced (Math)"
+  ];
   opts.forEach((v,i) => {
     const opt = document.createElement('option');
     opt.value = v; opt.textContent = names[i];
