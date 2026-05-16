@@ -1,0 +1,269 @@
+/* =========================================================
+   VI Calculator
+   n64-vi-calculator.html
+========================================================= */
+
+body {
+  background-color: #fff;
+  color: #555;
+  font-family: Verdana, sans-serif;
+}
+
+.vi-calculator {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  color: #000;
+  font-family: "Consolas", "Menlo", "Monaco", monospace;
+}
+
+.vi-calculator h1 {
+  font-size: 1.5em;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.vi-intro {
+  text-align: center;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  margin-bottom: 25px;
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid #000;
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  margin: 10px 0;
+}
+
+.input-row label {
+  width: 260px;
+  padding-right: 12px;
+  text-align: right;
+  font-weight: bold;
+}
+
+.input-row select,
+.input-row input {
+  width: 300px;
+  padding: 4px;
+  font-family: inherit;
+  font-size: 1em;
+}
+
+
+/* -- Results Layout -- */
+
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.results-column {
+  flex: 1;
+  min-width: 350px;
+}
+
+.results-column--left {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  line-height: 1.7;
+}
+
+.results-column--right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 40px;
+  border-left: 1px dashed #000;
+
+  gap: 8px;
+}
+
+.result-row {
+  display: flex;
+  align-items: baseline;
+}
+
+.result-label {
+  text-align: right;
+  white-space: pre;
+}
+
+.result-value {
+  padding-left: 8px;
+}
+
+.result-spacer {
+  height: 0.8em;
+}
+
+
+/* -- Value Styling -- */
+
+.val {
+  color: #005a00;
+  font-weight: 600;
+}
+
+.meta {
+  color: #555;
+  font-size: 0.9em;
+}
+
+.deltas {
+  font-family: inherit;
+}
+
+.highlight-block {
+  margin-bottom: 28px;
+}
+
+.highlight-title {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.calc-subtitle {
+  margin-top: 14px;
+  margin-bottom: 6px;
+}
+
+.calc-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.frequency-value {
+  font-size: 1.15em;
+  line-height: 1.2;
+}
+
+.frequency-subvalue {
+  font-size: 1.02em;
+  line-height: 1.2;
+}
+
+/* -- Divider -- */
+
+.divider {
+  margin: 40px 0;
+  border: 0;
+  border-top: 1px solid #000;
+}
+
+
+/* -- Model Section -- */
+
+#model {
+  font-family: "Times New Roman", serif;
+  font-size: 1.1em;
+  line-height: 1.8;
+}
+
+#model h2 {
+  margin: 0 0 1em;
+  font-family: "Consolas", "Menlo", "Monaco", monospace;
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#model p {
+  margin: 0.8em 0 0.2em;
+}
+
+#model .katex-display {
+  margin: 0.5em 0 1em 1.5em;
+}
+
+.model-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem 2rem;
+  align-items: start;
+}
+
+.example {
+  margin: 1.2em 0 1.2em 1.5em;
+  padding-left: 1em;
+  border-left: 2px solid #ddd;
+  opacity: 0.95;
+  font-size: 0.97em;
+}
+
+.example p {
+  margin: 0.4em 0;
+}
+
+
+/* -- Responsive -- */
+
+@media (max-width: 800px) {
+  .results-column--right {
+    padding-left: 0;
+    border-left: 0;
+  }
+
+  .input-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .input-row label {
+    width: auto;
+    padding-right: 0;
+    margin-bottom: 4px;
+    text-align: left;
+  }
+
+  .input-row select,
+  .input-row input {
+    width: 100%;
+  }
+}
+
+
+/* -- Footer -- */
+
+.ref-footer {
+  margin-top: 2em;
+  font-size: 0.85em;
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* -- Tooltips -- */
+
+.tooltip {
+  position: relative;
+  border-bottom: 1px dotted currentColor;
+  cursor: help;
+}
+.tooltip::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%; bottom: 125%;
+  transform: translateX(-50%);
+  background: #111; color: #fff;
+  padding: 4px 8px; border-radius: 4px;
+  font-size: 0.85rem; white-space: nowrap;
+  opacity: 0; pointer-events: none;
+  transition: opacity .15s;
+}
+.tooltip:hover::after,
+.tooltip:focus::after { opacity: 1; }

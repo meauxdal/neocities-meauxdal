@@ -6,7 +6,7 @@
   <title>VI timing calculator</title>
 
   <!-- KaTeX -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="vi-calculator.css">
   <link rel="stylesheet" href="katex/katex.min.css">
   <script src="katex/katex.min.js" defer></script>
   <script src="katex/contrib/auto-render.min.js" defer
@@ -102,9 +102,25 @@
   <div class="results-column results-column--right">
 
     <div class="highlight-block">
-      <strong>H_TOTAL<sub>leap</sub>:</strong><br>
-      <span class="meta" id="Lavg_frac"></span><br>
-      <span class="val frequency-value" id="Lavg"></span>
+
+      <div class="highlight-title">
+        H_TOTAL<sub>leap</sub>:
+      </div>
+
+      <div class="calc-group">
+        <span class="meta" id="Lavg_frac"></span>
+        <span id="Lavg" class="val frequency-subvalue"></span>
+      </div>
+
+      <div class="highlight-title">
+        H_TOTAL<sub>leap</sub>/4:
+      </div>
+
+      <div class="calc-group">
+        <span class="meta" id="Lavg_frac_div4"></span>
+        <span id="Lavg_div4" class="val frequency-subvalue"></span>
+      </div>
+
     </div>
 
     <div class="highlight-block">
@@ -171,7 +187,7 @@
     \delta_B = L_B - L
     $$
 
-    <p>Slot $i$ of the 5-slot leap pattern selects $\delta_A$ when bit $i$ is 0, $\delta_B$ when bit $i$ is 1:</p>
+    <p>Slot $i$ of the 5-slot leap pattern selects $\delta_A$ if bit $i = 0$ and $\delta_B$ if bit $i = 1$:</p>
     $$
     \delta_i \in \{\delta_A,\, \delta_B\}
     $$
@@ -212,7 +228,7 @@
       \end{gathered}
       $$
 
-      <p>The 5-slot leap pattern selects $\delta_B$ when bit $i$ is 1, $\delta_A$ when bit $i$ is 0:</p>
+      <p>The 5-slot leap pattern selects $\delta_A$ if bit $i = 0$ and $\delta_B$ if bit $i = 1$:</p>
       $$
       \text{pattern} = 10101_2 \implies \delta_B,\, \delta_A,\, \delta_B,\, \delta_A,\, \delta_B
       $$
@@ -392,6 +408,10 @@ const pat = parseInt(document.getElementById('pattern').value) || 0;
 
   document.getElementById('Lavg').textContent = `≈ ${L_avg.toDecimal(13)}`;
   document.getElementById('Lavg_frac').textContent = L_avg.toString();
+
+  const Lavg_div4 = L_avg.divide(new Fraction(4n, 1n));
+  document.getElementById('Lavg_div4').textContent = `≈ ${Lavg_div4.toDecimal(13)}`;
+  document.getElementById('Lavg_frac_div4').textContent = Lavg_div4.toString();
   
   // Right Column Assignments
   document.getElementById('fH_frac').textContent = fH.toString();

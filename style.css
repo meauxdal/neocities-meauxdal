@@ -1,264 +1,148 @@
 /* =========================================================
-   Global Site Styles
+   Dark Site Base
+   index.html, projects.html, music.html, improvisations.html,
+   sbk-converter.html, n64-converter.html
 ========================================================= */
 
 body {
-  background-color: #fff;
-  color: #555;
-  font-family: Verdana, sans-serif;
+  background-color: #2F4F4F;
+  color: #F0F8FF;
+  font-family: Verdana, Geneva, sans-serif;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
-
-/* =========================================================
-   N64 VI Calculator
-========================================================= */
-
-.vi-calculator {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 20px;
-  color: #000;
-  font-family:
-    "Consolas",
-    "Menlo",
-    "Monaco",
-    monospace;
+h1, h2 {
+  color: #FFFFFF;
+  font-weight: normal;
 }
 
-.vi-calculator h1 {
-  font-size: 1.5em;
-  margin-bottom: 25px;
-  text-align: center;
+a {
+  color: lightpink;
+  text-decoration: none;
 }
 
-.vi-intro {
-  text-align: center;
-  margin-bottom: 25px;
-  line-height: 1.5;
+a:hover {
+  text-decoration: underline;
 }
 
-.input-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  margin-bottom: 25px;
-  padding-bottom: 25px;
-
-  border-bottom: 1px solid #000;
+ul {
+  list-style-type: square;
+  padding-left: 20px;
 }
 
-.input-row {
-  display: flex;
-  align-items: center;
-
-  margin: 10px 0;
+li {
+  margin-bottom: 10px;
 }
 
-.input-row label {
-  width: 260px;
-  padding-right: 12px;
+/* -- Shared page furniture -- */
 
-  text-align: right;
-  font-weight: bold;
-}
-
-.input-row select,
-.input-row input {
-  width: 300px;
-  padding: 4px;
-
-  font-family: inherit;
-  font-size: 1em;
-}
-
-
-/* =========================================================
-   Results Layout
-========================================================= */
-
-.results-container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 40px;
-
-  margin-bottom: 40px;
-}
-
-.results-column {
-  flex: 1;
-  min-width: 350px;
-}
-
-.results-column--left {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-
-  line-height: 1.7;
-}
-
-.results-column--right {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  padding-left: 40px;
-
-  border-left: 1px dashed #000;
-}
-
-.result-row {
-  display: flex;
-  align-items: baseline;
-}
-
-.result-label {
-  text-align: right;
-  white-space: pre;
-}
-
-.result-value {
-  padding-left: 8px;
-}
-
-.result-spacer {
-  height: 0.8em;
-}
-
-
-/* =========================================================
-   Value Styling
-========================================================= */
-
-.val {
-  color: #006600;
-  font-weight: bold;
-}
-
-.meta {
-  color: #555;
+.subtitle {
+  color: #A9A9A9;
   font-size: 0.9em;
+  margin-top: -5px;
+  display: block;
 }
 
-.deltas {
-  font-family: inherit;
+.footer-nav {
+  margin-bottom: 20px;
+  font-size: 0.8em;
 }
 
-.highlight-block {
+
+/* =========================================================
+   Converter Components
+   sbk-converter.html, n64-converter.html
+========================================================= */
+
+.tool-desc {
+  font-size: 0.9em;
+  color: #A9A9A9;
   margin-bottom: 20px;
 }
 
-.frequency-value {
-  font-size: 1.25em;
+.input-box {
+  background: #3e5f5f;
+  padding: 15px;
+  border: 1px solid #5f9ea0;
+  margin-bottom: 20px;
 }
 
-
-/* =========================================================
-   Divider
-========================================================= */
-
-.divider {
-  margin: 40px 0;
-
-  border: 0;
-  border-top: 1px solid #000;
-}
-
-
-/* =========================================================
-   Model Section
-========================================================= */
-
-#model {
-  font-family:
-    "Times New Roman",
-    serif;
-
-  font-size: 1.1em;
-  line-height: 1.8;
-}
-
-#model h2 {
-  margin: 0 0 1em;
-
-  font-family:
-    "Consolas",
-    "Menlo",
-    "Monaco",
-    monospace;
-
-  font-size: 1.2em;
-  font-weight: bold;
-}
-
-#model p {
-  margin: 0.8em 0 0.2em;
-}
-
-#model .katex-display {
-  margin: 0.5em 0 1em 1.5em;
-}
-
-.model-grid {
+.config-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1rem 2rem;
-
-  align-items: start;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
 }
 
-.example {
-  margin: 1.2em 0 1.2em 1.5em;
-  padding-left: 1em;
-  border-left: 2px solid #ddd;
-  opacity: 0.95;
-  font-size: 0.97em;
-}
-.example p {
-  margin: 0.4em 0;
+.config-grid.input-box {
+  margin-bottom: 0;
 }
 
-
-/* =========================================================
-   Responsive
-========================================================= */
-
-@media (max-width: 800px) {
-
-  .results-column--right {
-    padding-left: 0;
-    border-left: 0;
-  }
-
-  .input-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .input-row label {
-    width: auto;
-    padding-right: 0;
-
-    margin-bottom: 4px;
-
-    text-align: left;
-  }
-
-  .input-row select,
-  .input-row input {
-    width: 100%;
-  }
+label {
+  display: block;
+  font-size: 0.75em;
+  margin-bottom: 8px;
+  color: #A9A9A9;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-/* =========================================================
-   Footer
-========================================================= */
+select,
+input {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.1em;
+  padding: 5px;
+  background: #2F4F4F;
+  color: white;
+  border: 1px solid #5f9ea0;
+  width: 100%;
+  box-sizing: border-box;
+}
 
-.ref-footer {
-    margin-top: 2em; 
-    font-size: 0.85em; 
-    opacity: 0.7;
-    text-align: center;
-    }
+.time-inputs {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.time-inputs input {
+  width: 60px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+.time-inputs input::-webkit-inner-spin-button,
+.time-inputs input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.time-inputs input.ms {
+  width: 100px;
+}
+
+.result-display {
+  padding: 25px;
+  border: 1px solid lightpink;
+  text-align: center;
+}
+
+#result {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 2.4em;
+  color: lightpink;
+  display: block;
+}
+
+.converter-footer {
+  margin-top: 40px;
+  font-size: 0.75em;
+  text-align: center;
+  color: #A9A9A9;
+  border-top: 1px solid #4682B4;
+  padding-top: 20px;
+}
