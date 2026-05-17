@@ -92,6 +92,11 @@
     </div>
 
     <div class="result-row">
+      <span class="result-label">±VI clocks over 5 VSYNCs:</span>
+      <span class="result-value val" id="totalExtra"></span>
+    </div>
+
+    <div class="result-row">
       <span class="result-label">±VI clocks/VSYNC (avg):</span>
       <span class="result-value val" id="avgExtra"></span>
     </div>
@@ -394,6 +399,8 @@ const pat = parseInt(document.getElementById('pattern').value) || 0;
   document.getElementById('LEAPB_val').textContent = LB;
   document.getElementById('pattern_meta').textContent = "0b" + pat.toString(2).padStart(5,'0');
   document.getElementById('leapDeltas').textContent = deltas.join(', ');
+  document.getElementById('totalExtra').textContent =
+  (totalExtra >= 0 ? "+" : "") + totalExtra;
   const avgExtra = totalExtra / 5;
   const avgExtraText =
     (avgExtra >= 0 ? "+" : "") +
