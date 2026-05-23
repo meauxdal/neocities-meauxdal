@@ -295,6 +295,9 @@
   </footer>
 
 <script>
+
+// fraction logic 
+
 class Fraction {
   constructor(num, den = 1n) { 
     this.num = BigInt(num); 
@@ -331,6 +334,78 @@ class Fraction {
   multiply(other) { return new Fraction(this.num * other.num, this.den * other.den); }
   divide(other) { return new Fraction(this.num * other.den, this.den * other.num); }
 }
+
+// calculation logic
+
+function calc() {
+  const region = document.getElementById('viRegion').value;
+
+const fVI = 
+  region === 'NTSC' ? new Fraction(535500000n, 11n) :
+  region === 'PAL'  ? new Fraction(49656530n, 1n) :
+                      new Fraction(6953850000n, 143n);
+
+const toBigInt = (id) => {
+  const v = document.getElementById(id).value;
+  return BigInt(v === "" ? "0" : v);
+};
+
+const L_base = toBigInt('HTOTAL');
+const LA = toBigInt('LEAPA');
+const LB = toBigInt('LEAPB');
+const S = toBigInt('S');
+const pat = parseInt(document.getElementById('pattern').value) || 0;
+
+  document.getElementById('HTOTAL_div4').textContent = (Number(L_base) / 4).toFixed(2);
+  document.getElementById('LEAPA_div4').textContent = (Number(LA) / 4).toFixed(2);
+  document.getElementById('LEAPB_div4').textContent = (Number(LB) / 4).toFixed(2);
+
+  const deltaA = Number(LA - L_base);
+  const deltaB = Number(LB - L_base);
+  let deltas = [], totalExtra = 0;
+  for (let i = 0; i < 5; i++) {
+    const bit = (pat >> i) & 1;
+    const d = bit ? deltaB : deltaA;
+    deltas.push(d >= 0 ? `+${d}` : d);
+    totalExtra += d;
+  }
+ 
+ // display results 
+
+  document.getElementById('Lbase').textContent = L_base;
+  document.getElementById('LEAPA_val').textContent = LA;
+  document.getElementById('LEAPB_val').textContent = LB;
+  document.getElementById('pattern_meta').textContent = "0b" + pat.toString(2).padStart(5,'0');
+  document.getElementById('leapDeltas').textContent = deltas.join(', ');
+  document.getElementById('totalExtra').textContent =
+  (totalExtra >= 0 ? "+" : "") + totalExtra;
+  const avgExtra = totalExtra / 5;
+  const avgExtraText =
+    (avgExtra >= 0 ? "+" : "") +
+    avgExtra.toFixed(1);
+
+  document.getElementById('avgExtra').textContent =
+    avgExtraText;
+
+  const L_avg = new Fraction(5n * L_base * S + 2n * BigInt(totalExtra), 5n * S);
+  const fH = fVI.divide(L_avg);
+  const fV = fVI.multiply(new Fraction(2n)).divide(new Fraction(S)).divide(L_avg);
+
+  document.getElementById('Lavg').textContent = `≈ ${L_avg.toDecimal(13)}`;
+  document.getElementById('Lavg_frac').textContent = L_avg.toString();
+
+  const Lavg_div4 = L_avg.divide(new Fraction(4n, 1n));
+  document.getElementById('Lavg_div4').textContent = `≈ ${Lavg_div4.toDecimal(13)}`;
+  document.getElementById('Lavg_frac_div4').textContent = Lavg_div4.toString();
+  
+  document.getElementById('fH_frac').textContent = fH.toString();
+  document.getElementById('fH_dec').textContent = `≈ ${fH.toDecimal(13)} Hz`;
+  
+  document.getElementById('fV_frac').textContent = fV.toString();
+  document.getElementById('fV_dec').textContent = `≈ ${fV.toDecimal(13)} Hz`;
+}
+
+// preset logic
 
 function markCustom() { document.getElementById('timingPreset').value = 'CUSTOM'; }
 
