@@ -334,142 +334,64 @@ class Fraction {
 
 function markCustom() { document.getElementById('timingPreset').value = 'CUSTOM'; }
 
+const PRESETS = [
+  // -- Main --
+  { key:"MPAL_INT",      group:"main", label:"MPAL Interlaced",              reg:"MPAL", h:3091, la:3096, lb:3096, pat:0,  s:525 },
+  { key:"MPAL_PROG",     group:"main", label:"MPAL Progressive",             reg:"MPAL", h:3091, la:3098, lb:3098, pat:0,  s:526 },
+  { key:"NTSC_INT",      group:"main", label:"NTSC Interlaced",              reg:"NTSC", h:3094, la:3094, lb:3094, pat:0,  s:525 },
+  { key:"NTSC_PROG",     group:"main", label:"NTSC Progressive",             reg:"NTSC", h:3094, la:3094, lb:3094, pat:0,  s:526 },
+  { key:"PAL_1996_INT",  group:"main", label:"PAL 1996 Interlaced",          reg:"PAL",  h:3178, la:3183, lb:3184, pat:21, s:625 },
+  { key:"PAL_1996_PROG", group:"main", label:"PAL 1996 Progressive",         reg:"PAL",  h:3178, la:3183, lb:3184, pat:21, s:626 },
+  { key:"PAL_1997_INT",  group:"main", label:"PAL 1997 Interlaced",          reg:"PAL",  h:3178, la:3182, lb:3184, pat:23, s:625 },
+  { key:"PAL_1997_PROG", group:"main", label:"PAL 1997 Progressive",         reg:"PAL",  h:3178, la:3182, lb:3184, pat:23, s:626 },
+  { key:"PAL60_INT",     group:"main", label:"PAL60 Interlaced",             reg:"PAL",  h:3156, la:3156, lb:3156, pat:0,  s:525 },
+  { key:"PAL60_PROG",    group:"main", label:"PAL60 Progressive",            reg:"PAL",  h:3156, la:3156, lb:3156, pat:0,  s:526 },
+  // -- Experimental --
+  { key:"MPAL_I_OLD",    group:"exp",  label:"MPAL Interlaced (Old)",        reg:"MPAL", h:3089, la:3101, lb:3101, pat:0,  s:525 },
+  { key:"MPAL_P_OLD",    group:"exp",  label:"MPAL Progressive (Old)",       reg:"MPAL", h:3090, la:3099, lb:3098, pat:4,  s:526 },
+  { key:"MPAL_P_LIBPRE", group:"exp",  label:"MPAL Progressive (Libdragon Preview)", reg:"MPAL", h:3089, la:3101, lb:3101, pat:0, s:526 },
+];
+
 function applyPreset() {
-  const p = document.getElementById('timingPreset').value;
-  const presets = {
-    NTSC_P:         {reg:"NTSC",h:3094,la:3094,lb:3094,pat:0, s:526},
-    NTSC_I:         {reg:"NTSC",h:3094,la:3094,lb:3094,pat:0, s:525},
-    PAL_P:          {reg:"PAL", h:3178,la:3183,lb:3184,pat:21,s:626},
-    PAL_I:          {reg:"PAL", h:3178,la:3183,lb:3184,pat:21,s:625},
-    MPAL_P:         {reg:"MPAL",h:3090,la:3099,lb:3098,pat:4, s:526},
-    MPAL_I:         {reg:"MPAL",h:3089,la:3101,lb:3101,pat:0, s:525},
-    PAL_P_OS20H:    {reg:"PAL", h:3178,la:3182,lb:3184,pat:23,s:626},
-    PAL_I_OS20H:    {reg:"PAL", h:3178,la:3182,lb:3184,pat:23,s:625},
-    PAL60_P:        {reg:"PAL", h:3156,la:3156,lb:3156,pat:0, s:526},
-    PAL60_I:        {reg:"PAL", h:3156,la:3156,lb:3156,pat:0, s:525},
-    MPAL_P_LIBPRE:  {reg:"MPAL",h:3089,la:3101,lb:3101,pat:0, s:526},
-    MPAL_P_MATH:    {reg:"MPAL",h:3091,la:3091,lb:3091,pat:0, s:526},
-    MPAL_I_MATH:    {reg:"MPAL",h:3091,la:3091,lb:3091,pat:0, s:525},
-  };
-  const cfg = presets[p]; if (!cfg) return;
+  const key = document.getElementById('timingPreset').value;
+  const cfg = PRESETS.find(p => p.key === key);
+  if (!cfg) return;
   document.getElementById('viRegion').value = cfg.reg;
-  document.getElementById('HTOTAL').value = cfg.h;
-  document.getElementById('LEAPA').value = cfg.la;
-  document.getElementById('LEAPB').value = cfg.lb;
-  document.getElementById('pattern').value = cfg.pat;
-  document.getElementById('S').value = cfg.s;
+  document.getElementById('HTOTAL').value   = cfg.h;
+  document.getElementById('LEAPA').value    = cfg.la;
+  document.getElementById('LEAPB').value    = cfg.lb;
+  document.getElementById('pattern').value  = cfg.pat;
+  document.getElementById('S').value        = cfg.s;
   calc();
 }
 
-function calc() {
-  const region = document.getElementById('viRegion').value;
-
-const fVI = 
-  region === 'NTSC' ? new Fraction(535500000n, 11n) :
-  region === 'PAL'  ? new Fraction(49656530n, 1n) :
-                      new Fraction(6953850000n, 143n);
-
-const toBigInt = (id) => {
-  const v = document.getElementById(id).value;
-  return BigInt(v === "" ? "0" : v);
-};
-
-const L_base = toBigInt('HTOTAL');
-const LA = toBigInt('LEAPA');
-const LB = toBigInt('LEAPB');
-const S = toBigInt('S');
-const pat = parseInt(document.getElementById('pattern').value) || 0;
-
-  document.getElementById('HTOTAL_div4').textContent = (Number(L_base) / 4).toFixed(2);
-  document.getElementById('LEAPA_div4').textContent = (Number(LA) / 4).toFixed(2);
-  document.getElementById('LEAPB_div4').textContent = (Number(LB) / 4).toFixed(2);
-
-  const deltaA = Number(LA - L_base);
-  const deltaB = Number(LB - L_base);
-  let deltas = [], totalExtra = 0;
-  for (let i = 0; i < 5; i++) {
-    const bit = (pat >> i) & 1;
-    const d = bit ? deltaB : deltaA;
-    deltas.push(d >= 0 ? `+${d}` : d);
-    totalExtra += d;
-  }
-
-  document.getElementById('Lbase').textContent = L_base;
-  document.getElementById('LEAPA_val').textContent = LA;
-  document.getElementById('LEAPB_val').textContent = LB;
-  document.getElementById('pattern_meta').textContent = "0b" + pat.toString(2).padStart(5,'0');
-  document.getElementById('leapDeltas').textContent = deltas.join(', ');
-  document.getElementById('totalExtra').textContent =
-  (totalExtra >= 0 ? "+" : "") + totalExtra;
-  const avgExtra = totalExtra / 5;
-  const avgExtraText =
-    (avgExtra >= 0 ? "+" : "") +
-    avgExtra.toFixed(1);
-
-  document.getElementById('avgExtra').textContent =
-    avgExtraText;
-
-  const L_avg = new Fraction(5n * L_base * S + 2n * BigInt(totalExtra), 5n * S);
-  const fH = fVI.divide(L_avg);
-  const fV = fVI.multiply(new Fraction(2n)).divide(new Fraction(S)).divide(L_avg);
-
-  document.getElementById('Lavg').textContent = `≈ ${L_avg.toDecimal(13)}`;
-  document.getElementById('Lavg_frac').textContent = L_avg.toString();
-
-  const Lavg_div4 = L_avg.divide(new Fraction(4n, 1n));
-  document.getElementById('Lavg_div4').textContent = `≈ ${Lavg_div4.toDecimal(13)}`;
-  document.getElementById('Lavg_frac_div4').textContent = Lavg_div4.toString();
-  
-  // Right Column Assignments
-  document.getElementById('fH_frac').textContent = fH.toString();
-  document.getElementById('fH_dec').textContent = `≈ ${fH.toDecimal(13)} Hz`;
-  
-  document.getElementById('fV_frac').textContent = fV.toString();
-  document.getElementById('fV_dec').textContent = `≈ ${fV.toDecimal(13)} Hz`;
-}
-
-window.onload = () => { 
+window.onload = () => {
   const sel = document.getElementById('timingPreset');
-  const opts = [
-    "NTSC_P",
-    "NTSC_I",
-    "PAL_P",
-    "PAL_I",
-    "MPAL_P",
-    "MPAL_I",
-    "PAL_P_OS20H",
-    "PAL_I_OS20H",
-    "PAL60_P",
-    "PAL60_I",
-    "MPAL_P_LIBPRE",
-    "MPAL_P_MATH",
-    "MPAL_I_MATH"
-  ];
-  const names = [
-    "NTSC Progressive",
-    "NTSC Interlaced",
-    "PAL Progressive (1996)",
-    "PAL Interlaced (1996)",
-    "MPAL Progressive",
-    "MPAL Interlaced",
-    "PAL Progressive (OS2.0H+)",
-    "PAL Interlaced (OS2.0H+)",
-    "PAL60 Progressive",
-    "PAL60 Interlaced",
-    "MPAL Progressive (Libdragon Preview)",
-    "MPAL Progressive (Math)",
-    "MPAL Interlaced (Math)"
-  ];
-  opts.forEach((v,i) => {
+
+  let currentGroup = null;
+  let groupEl = null;
+
+  PRESETS.forEach(p => {
+    if (p.group !== currentGroup) {
+      currentGroup = p.group;
+      groupEl = document.createElement('optgroup');
+      groupEl.label = p.group === 'main' ? 'Standard' : 'Experimental';
+      sel.appendChild(groupEl);
+    }
     const opt = document.createElement('option');
-    opt.value = v; opt.textContent = names[i];
-    sel.appendChild(opt);
+    opt.value = p.key;
+    opt.textContent = p.label;
+    groupEl.appendChild(opt);
   });
+
   const custom = document.createElement('option');
-  custom.value = 'CUSTOM'; custom.textContent = '(custom)';
+  custom.value = 'CUSTOM';
+  custom.textContent = '(custom)';
   sel.appendChild(custom);
+
   applyPreset();
 };
+
 </script>
 </body>
 </html>
