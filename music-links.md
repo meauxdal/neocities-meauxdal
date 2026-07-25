@@ -9,6 +9,7 @@
 [https://elle-band.bandcamp.com/](https://elle-band.bandcamp.com/)  
 [https://elle-band.bandcamp.com/album/dawn](https://elle-band.bandcamp.com/album/dawn)  
 [https://elle-band.bandcamp.com/album/dusk](https://elle-band.bandcamp.com/album/dusk)
+[https://elle-band.bandcamp.com/album/pachinko](https://elle-band.bandcamp.com/album/pachinko)
 
 ### Instagram
 
