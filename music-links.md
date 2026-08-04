@@ -19,7 +19,8 @@
 
 [https://open.spotify.com/artist/2o3Xbbv4ujoMNF4fhyW1Ww](https://open.spotify.com/artist/2o3Xbbv4ujoMNF4fhyW1Ww) (Elle artist page)  
 [https://open.spotify.com/album/4qA410RDhgfq0UnsGurlRm](https://open.spotify.com/album/4qA410RDhgfq0UnsGurlRm) (2023 \- Dawn EP)  
-[https://open.spotify.com/album/2BTBd5u8Ul0fbWUX0y9BJ3](https://open.spotify.com/album/2BTBd5u8Ul0fbWUX0y9BJ3) (2024 \- Dusk EP)
+[https://open.spotify.com/album/2BTBd5u8Ul0fbWUX0y9BJ3](https://open.spotify.com/album/2BTBd5u8Ul0fbWUX0y9BJ3) (2024 \- Dusk EP)  
+[https://open.spotify.com/album/0ticzF1byfp1ecAlz1FZYw](https://open.spotify.com/album/0ticzF1byfp1ecAlz1FZYw) (2026 \- Pachinko)
 
 ### Youtube
 
@@ -32,12 +33,14 @@
 
 [https://music.youtube.com/channel/UCB8179I-mUR9nftmcYervlQ](https://music.youtube.com/channel/UCB8179I-mUR9nftmcYervlQ) (Elle artist page)  
 [https://music.youtube.com/playlist?list=OLAK5uy\_n0OQctKhzZJu7FEacFauQleqFvzDxTzX8](https://music.youtube.com/playlist?list=OLAK5uy_n0OQctKhzZJu7FEacFauQleqFvzDxTzX8) (2023 \- Dawn EP)  
-[https://music.youtube.com/playlist?list=OLAK5uy\_mp\_gbS6pm1moLP5nvKEsMY9555\_SPxR2k](https://music.youtube.com/playlist?list=OLAK5uy_mp_gbS6pm1moLP5nvKEsMY9555_SPxR2k) (2024 \- Dusk EP)
+[https://music.youtube.com/playlist?list=OLAK5uy\_mp\_gbS6pm1moLP5nvKEsMY9555\_SPxR2k](https://music.youtube.com/playlist?list=OLAK5uy_mp_gbS6pm1moLP5nvKEsMY9555_SPxR2k) (2024 \- Dusk EP)  
+[https://music.youtube.com/playlist?list=OLAK5uy_lexmd_R1ThElQVTPpG72cAc0aSzsf1L_I](https://music.youtube.com/playlist?list=OLAK5uy_lexmd_R1ThElQVTPpG72cAc0aSzsf1L_I) (2026 - Pachinko)
 
 ### Apple Music
 
 [https://music.apple.com/us/album/dawn-ep/1699048925](https://music.apple.com/us/album/dawn-ep/1699048925) (2023 \- Dawn EP)   
-[https://music.apple.com/us/album/dusk-ep/1761748152](https://music.apple.com/us/album/dusk-ep/1761748152) (2024 \- Dusk EP)
+[https://music.apple.com/us/album/dusk-ep/1761748152](https://music.apple.com/us/album/dusk-ep/1761748152) (2024 \- Dusk EP)  
+[https://music.apple.com/us/album/pachinko/6796840614](https://music.apple.com/us/album/pachinko/6796840614) (2026 \- Pachinko)
 
 ### Tidal
 
